@@ -1,15 +1,43 @@
 window.onload = function() {
-	purpose = document.getElementById("purpose");
-	purpose.addEventListener("click", function( event ) {
-		var fade_in = document.getElementsByClassName("fade-in");
-		for (var i = 0; i < fade_in.length; i++) { 
-			fade_in.item(i).style.color = "white";
-		}
-  setTimeout(lostFade, 3000);
-  setTimeout(secondFadeIn, 6000);
-	}, false);
-  var hiddenElement = document.getElementById("hidden-element");
-  hiddenElement.addEventListener("click", restartPurpose , false);
+  var status = {
+    on: "rgb(255, 255, 255)",
+    off: "rgb(0, 0, 0)"
+  }
+  var getStatus = function(element) {
+    var color = window.getComputedStyle(element)["color"];
+    if (color.valueOf() == status.on.valueOf()) {
+      return "on"
+    } else if (color.valueOf() == status.off.valueOf()) {
+      return "off"
+    } else {
+      return "other"
+    }
+  }
+  var Fade = function(array_of_elements) {
+    var statuses = []; 
+    this.elements = array_of_elements;
+    this.toggle = function() {
+      for (var i=0; i < this.elements.length; i++) {
+        var element = this.elements[i];
+        if (!statuses[i]) {
+          statuses[i] = getStatus(element);
+        } 
+        element.style.color = status[statuses[i]];
+      }
+    }
+  };
+	var purpose = new Fade([document.getElementById("purpose")]);
+  document.getElementById("purpose").addEventListener("click", purpose.Fade, false);
+	//purpose.addEventListener("click", function( event ) {
+	//	var fade_in = document.getElementsByClassName("fade-in");
+	//	for (var i = 0; i < fade_in.length; i++) { 
+	//		fade_in.item(i).style.color = "white";
+	//	}
+  //  setTimeout(lostFade, 3000);
+  //  setTimeout(secondFadeIn, 6000);
+	//}, false);
+  //var hiddenElement = document.getElementById("hidden-element");
+  //hiddenElement.addEventListener("click", restartPurpose , false);
 }
 function lostFade() {
   var fade_out = document.getElementsByClassName("fade-out");
