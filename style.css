@@ -1,0 +1,37 @@
+body {
+  font-size: 60px;
+  font-family: arial;
+  background-color: black;
+}
+.instructions {
+
+}
+.content a {
+  display: block;
+  text-align: center;
+  color: white;
+  letter-spacing: 10px;
+  text-decoration: none;
+}
+.content a:hover {
+  color: #0d0d0d;
+
+}
+.text-center {
+  text-align: center;
+}
+.purpose p {
+  color: black;
+  margin: 40px 0;
+}
+p.hidden  {
+  display: none;
+  z-index: 10;
+  position: absolute;
+}
+#hidden-element:hover {
+  color: #0d0d0d;
+}
+#hidden-element {
+  color: white;
+}
