@@ -4,30 +4,31 @@ body {
   background-color: black;
 }
 .instructions {
-
+  position: absolute;
+  left: 50%;
+  margin-left: -111px;
 }
-.content a {
-  display: block;
-  text-align: center;
+a {
   color: white;
-  letter-spacing: 10px;
   text-decoration: none;
 }
-.content a:hover {
+a:hover {
   text-decoration: underline;
 
 }
 .text-center {
   text-align: center;
 }
-.purpose p {
+p {
   color: black;
   margin: 40px 0;
 }
-p.hidden  {
-  display: none;
-  z-index: 10;
-  position: absolute;
+.hidden  {
+  color: black;
+  left: 0;
+}
+.hidden a {
+  color: black;
 }
 #hidden-element:hover {
   color: #0d0d0d;
