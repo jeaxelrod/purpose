@@ -2,7 +2,8 @@ window.onload = function() {
   
   var status = {
     on: "rgb(255, 255, 255)",
-    off: "rgb(0, 0, 0)"
+    off: "rgb(0, 0, 0)",
+    fontSize: window.getComputedStyle(document.body).getPropertyValue('font-size')
   };
 
   var getStatus = function(element) {
@@ -55,8 +56,8 @@ window.onload = function() {
     this.hide = function() {
       setUpVisibility();
       setUpEnvironment();
-      parent.style.top = getRandomInt(Math.floor(0 , document.body.clientHeight - parent.clientHeight)).toString() + "px";
-      parent.style.left = getRandomInt(Math.floor(0, document.body.clientWidth - parent.clientWidth)).toString() + "px";
+      parent.style.top = getRandomInt(0, Math.floor(document.body.clientHeight - parent.clientHeight)).toString() + "px";
+      parent.style.left = getRandomInt(parent.clientWidth, Math.floor(document.body.clientWidth - parent.clientWidth)).toString() + "px";
     };
 
     var setUpVisibility = function() {
@@ -65,8 +66,8 @@ window.onload = function() {
     };
     var setUpEnvironment = function() {
       var container = document.getElementsByClassName("container")[0];
-      container.style.height = (document.body.clienHeight * 4).toString() + "px";
-      scaleFontSize(document.body, .90);
+      container.style.height = (document.body.clientHeight * 2).toString() + "px";
+      scaleFontSize(parent_div);
     };
   };
   var Game = function(game_functions1, game_functions2) {
@@ -101,8 +102,9 @@ window.onload = function() {
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  function scaleFontSize(element, amount) {
-    var fontSize= window.getComputedStyle(element, null).getPropertyValue('font-size');
-    element.style.fontSize = (fontSize.substring(0, 3) * amount)+ "px";
+  function scaleFontSize(element) {
+    var fontSize = status.fontSize;
+    status.fontSize = (fontSize.match(/[^px]+/)[0] * 0.8) + "px";
+    element.style.fontSize = status.fontSize;
   }
 }

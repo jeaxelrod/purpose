@@ -2,11 +2,16 @@ body {
   font-size: 60px;
   font-family: arial;
   background-color: black;
+  min-height: 95vh;
+}
+.container {
+  height: 100%;
 }
 .instructions {
   position: absolute;
   left: 50%;
   margin-left: -111px;
+  text-align: center;
 }
 a {
   color: white;
