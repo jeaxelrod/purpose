@@ -1,8 +1,8 @@
 window.onload = function() {
   
   var status = {
-    on: "rgb(255, 255, 255)",
-    off: "rgb(0, 0, 0)",
+    on: "#ffffff",
+    off: "#000000",
     fontSize: window.getComputedStyle(document.body).getPropertyValue('font-size')
   };
 
@@ -47,6 +47,7 @@ window.onload = function() {
     var that = this;
     var all_elements_fader = new Fader([purpose, find, your, is, lost]);
     var purpose_fader = new Fader([purpose]);
+    var first_run = true;
 
 
     this.first_fader = new Fader([your, purpose, is, lost]);
@@ -54,10 +55,15 @@ window.onload = function() {
     this.clicker = purpose;
     this.clicked = false;
     this.hide = function() {
-      setUpVisibility();
       setUpEnvironment();
-      parent.style.top = getRandomInt(0, Math.floor(document.body.clientHeight - parent.clientHeight)).toString() + "px";
+      setUpVisibility();
+      if (first_run) {
+        parent.style.top = getRandomInt(document.body.clientHeight, Math.floor(document.body.clientHeight - parent.clientHeight)).toString() + "px";
+      } else {
+        parent.style.top = getRandomInt(0, Math.floor(document.body.clientHeight - parent.clientHeight)).toString() + "px";
+      }
       parent.style.left = getRandomInt(parent.clientWidth, Math.floor(document.body.clientWidth - parent.clientWidth)).toString() + "px";
+
     };
 
     var setUpVisibility = function() {
@@ -68,6 +74,7 @@ window.onload = function() {
       var container = document.getElementsByClassName("container")[0];
       container.style.height = (document.body.clientHeight * 2).toString() + "px";
       scaleFontSize(parent_div);
+      darkenColor();
     };
   };
   var Game = function(game_functions1, game_functions2) {
@@ -86,7 +93,7 @@ window.onload = function() {
         setTimeout(clicker.second_fader.on, 3100);
         clicker.clicked = true;
 
-        hider.hide();
+        setTimeout(hider.hide, 3101);
         hider.clicked = false;
       }
     };
@@ -104,7 +111,25 @@ window.onload = function() {
   }
   function scaleFontSize(element) {
     var fontSize = status.fontSize;
-    status.fontSize = (fontSize.match(/[^px]+/)[0] * 0.8) + "px";
+    status.fontSize = (fontSize.match(/[^px]+/)[0] * 0.85) + "px";
     element.style.fontSize = status.fontSize;
   }
-}
+  function darkenColor() {
+    if (status.on !== "#000000") {
+      var currentBrightness = parseInt(status.on.substring(1,3), 16);
+      currentBrightness -= 26;
+      if (currentBrightness <= 0) {
+        status.on = "#000000";
+      } else {
+        status.on = "#" + currentBrightness.toString(16).repeat(3);
+      }
+    }
+  }
+  String.prototype.repeat = function(num) {
+    if (num === 1) {
+        return this;
+    } else {
+        return this + this.repeat(num - 1);
+    }
+  };
+};
