@@ -14,7 +14,7 @@ body {
   text-decoration: none;
 }
 .content a:hover {
-  color: #0d0d0d;
+  text-decoration: underline;
 
 }
 .text-center {

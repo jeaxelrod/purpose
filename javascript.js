@@ -1,33 +1,95 @@
 window.onload = function() {
+  
   var status = {
     on: "rgb(255, 255, 255)",
     off: "rgb(0, 0, 0)"
   }
+
   var getStatus = function(element) {
     var color = window.getComputedStyle(element)["color"];
     if (color.valueOf() == status.on.valueOf()) {
-      return "on"
+      return "on";
     } else if (color.valueOf() == status.off.valueOf()) {
-      return "off"
+      return "off";
     } else {
-      return "other"
+      return "other";
     }
   }
-  var Fade = function(array_of_elements) {
-    var statuses = []; 
+
+  var Fader = function(array_of_elements) {
+    var that = this;
+
     this.elements = array_of_elements;
-    this.toggle = function() {
-      for (var i=0; i < this.elements.length; i++) {
-        var element = this.elements[i];
-        if (!statuses[i]) {
-          statuses[i] = getStatus(element);
-        } 
-        element.style.color = status[statuses[i]];
+
+    this.on = function() {
+      for (var i=0; i < that.elements.length; i++) {
+        var element = that.elements[i];
+        element.style.color = status.on;      
       }
     }
+    this.off = function() {
+      for (var i=0; i < that.elements.length; i++) {
+        var element = that.elements[i];
+        element.style.color = status.off;
+        }
+      }  
+    }
   };
-	var purpose = new Fade([document.getElementById("purpose")]);
-  document.getElementById("purpose").addEventListener("click", purpose.Fade, false);
+
+  var Game = function(parent_div) {
+    var parent = parent_div;
+    var purpose = parent.getElementsByClassName("purpose")[0];
+    var find = parent.getElementsByClassName("find")[0];
+    var your = parent.getElementsByClassName("your")[0];
+    var is = parent.getElementsByClassName("is")[0];
+    var lost = parent.getElementsByClassName("lost")[0];
+    var statuses = [];
+    var that = this;
+    var all_elements_fader = new Fader([purpose, find, your, is, lost]);
+    var purpose_fader = new Fader([purpose]);
+
+
+    this.first_fader = new Fader([your, purpose, is, lost]);
+    this.second_fader = new Fader([find, your, purpose]);
+    this.elements = array_of_elements;
+
+    this.first_fader.clicked = false;
+
+    this.hide = function() {
+      setUpVisibility();
+      setUpEnvironment();
+      parent.style.top = getRandomInt(Math.floor(0 , document.body.clientHeight - parent.clientHeight).toString() + "px";
+      parent.style.left = getRandomInt(Math.floor(0, document.body.clientWidth - parent.clientWidth).toString() + "px";
+    };
+
+    var setUpVisibility = function() {
+      all_elements_fader.off();
+      purpose_fader.on();
+    };
+    var setUpEnvironment = function() {
+      var container = document.getElementsByClassName("container")[0];
+      container.style.height = (document.body.clienHeight * 4).toString() + "px";
+      scaleFontSize(document.body, .90);
+    };
+  }
+
+
+  var purpose = document.getElementById("purpose");
+  var find = document.getElementById("find");
+  var your = document.getElementById("your");
+  var is = document.getElementById("is");
+  var lost = document.getElementById("lost");
+  var first_fader = new Fader([your, purpose, is, lost]);
+  first_fader.clicked = false;
+  var second_fader = new Fader([find, your, purpose]);
+  purpose.addEventListener("click", function( event ) {
+    if (!first_fader.clicked) {
+      first_fader.on();
+      setTimeout(first_fader.off, 3000);
+      setTimeout(second_fader.on, 3100);
+      first_fader.clicked = true
+    }
+  }, false);
 	//purpose.addEventListener("click", function( event ) {
 	//	var fade_in = document.getElementsByClassName("fade-in");
 	//	for (var i = 0; i < fade_in.length; i++) { 
@@ -39,12 +101,7 @@ window.onload = function() {
   //var hiddenElement = document.getElementById("hidden-element");
   //hiddenElement.addEventListener("click", restartPurpose , false);
 }
-function lostFade() {
-  var fade_out = document.getElementsByClassName("fade-out");
-  for ( var i = 0; i < fade_out.length; i++) {
-    fade_out.item(i).style.color = "black";
-  }
-}
+
 function secondFadeIn() {
   var fade_in = document.getElementsByClassName("2nd-fade-in");
   for ( var i = 0; i < fade_in.length; i++) {
