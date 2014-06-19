@@ -3,7 +3,9 @@ window.onload = function() {
   var status = {
     on: "#ffffff",
     off: "#000000",
-    fontSize: window.getComputedStyle(document.body).getPropertyValue('font-size')
+    fontSize: window.getComputedStyle(document.body).getPropertyValue('font-size'),
+    first_run: true,
+    last_run: false
   };
 
   var getStatus = function(element) {
@@ -47,7 +49,6 @@ window.onload = function() {
     var that = this;
     var all_elements_fader = new Fader([purpose, find, your, is, lost]);
     var purpose_fader = new Fader([purpose]);
-    var first_run = true;
 
 
     this.first_fader = new Fader([your, purpose, is, lost]);
@@ -57,8 +58,9 @@ window.onload = function() {
     this.hide = function() {
       setUpEnvironment();
       setUpVisibility();
-      if (first_run) {
+      if (status.first_run) {
         parent.style.top = getRandomInt(document.body.clientHeight, Math.floor(document.body.clientHeight - parent.clientHeight)).toString() + "px";
+        status.first_run = false;
       } else {
         parent.style.top = getRandomInt(0, Math.floor(document.body.clientHeight - parent.clientHeight)).toString() + "px";
       }
@@ -88,12 +90,17 @@ window.onload = function() {
 
     var click = function(clicker, hider) {
       if (!clicker.clicked) {
+        if (!status.last_run) {
+          setTimeout(clicker.first_fader.off, 3000);
+          setTimeout(clicker.second_fader.on, 3000);
+        } else {
+          setTimeout(clicker.first_fader.off, 10000);
+          status.on = "#ffffff"
+        }
         clicker.first_fader.on();
-        setTimeout(clicker.first_fader.off, 3000);
-        setTimeout(clicker.second_fader.on, 3100);
         clicker.clicked = true;
 
-        setTimeout(hider.hide, 3101);
+        setTimeout(hider.hide, 3001);
         hider.clicked = false;
       }
     };
@@ -118,6 +125,9 @@ window.onload = function() {
     if (status.on !== "#000000") {
       var currentBrightness = parseInt(status.on.substring(1,3), 16);
       currentBrightness -= 26;
+      if (currentBrightness <= 26) {
+        status.last_run = true;
+      }
       if (currentBrightness <= 0) {
         status.on = "#000000";
       } else {
