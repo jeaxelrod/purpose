@@ -8,17 +8,6 @@ window.onload = function() {
     last_run: false
   };
 
-  var getStatus = function(element) {
-    var color = window.getComputedStyle(element)["color"];
-    if (color.valueOf() == status.on.valueOf()) {
-      return "on";
-    } else if (color.valueOf() == status.off.valueOf()) {
-      return "off";
-    } else {
-      return "other";
-    }
-  };
-
   var Fader = function(array_of_elements) {
     var that = this;
 
@@ -40,19 +29,16 @@ window.onload = function() {
 
   var GameFunctions = function(parent_div) {
     var parent = parent_div;
-    var purpose = parent.getElementsByClassName("purpose")[0];
-    var find = parent.getElementsByClassName("find")[0];
-    var your = parent.getElementsByClassName("your")[0];
-    var is = parent.getElementsByClassName("is")[0];
-    var lost = parent.getElementsByClassName("lost")[0];
     var statuses = [];
+    var purpose = parent.getElementsByClassName("purpose")[0];
     var that = this;
-    var all_elements_fader = new Fader([purpose, find, your, is, lost]);
+    var all_elements_fader = new Fader(parent.children)                
     var purpose_fader = new Fader([purpose]);
+    var first_group = Array.prototype.slice.call( parent.getElementsByClassName("first-fader"));
+    var second_group = Array.prototype.slice.call( parent.getElementsByClassName("second-fader"));
 
-
-    this.first_fader = new Fader([your, purpose, is, lost]);
-    this.second_fader = new Fader([find, your, purpose]);
+    this.first_fader = new Fader(first_group);
+    this.second_fader = new Fader(second_group);
     this.clicker = purpose;
     this.clicked = false;
     this.hide = function() {
