@@ -1,5 +1,6 @@
 window.onload = function() {
   
+  // status contains the environoment variables related to game conditions
   var status = {
     on: "#ffffff",
     off: "#000000",
@@ -8,6 +9,7 @@ window.onload = function() {
     last_run: false
   };
 
+  // Fader is an object an array of  HTMLElements and can become visible or invisible
   var Fader = function(array_of_elements) {
     var that = this;
 
@@ -28,14 +30,14 @@ window.onload = function() {
   };
 
   var GameFunctions = function(parent_div) {
-    var parent = parent_div;
-    var statuses = [];
-    var purpose = parent.getElementsByClassName("purpose")[0];
-    var that = this;
-    var all_elements_fader = new Fader(parent.children)                
-    var purpose_fader = new Fader([purpose]);
-    var first_group = Array.prototype.slice.call( parent.getElementsByClassName("first-fader"));
-    var second_group = Array.prototype.slice.call( parent.getElementsByClassName("second-fader"));
+    var parent = parent_div,
+    statuses = [],
+    purpose = parent.getElementsByClassName("purpose")[0],
+    that = this,
+    all_elements_fader = new Fader(parent.children)                
+    purpose_fader = new Fader([purpose]),
+    first_group = Array.prototype.slice.call( parent.getElementsByClassName("first-fader")),
+    second_group = Array.prototype.slice.call( parent.getElementsByClassName("second-fader"))
 
     this.first_fader = new Fader(first_group);
     this.second_fader = new Fader(second_group);
